@@ -1,0 +1,10 @@
+bin/
+obj/
+*.db
+*.sqlite
+*.db-journal
+*.user
+*.suo
+*.cache
+.vscode/
+.idea/
