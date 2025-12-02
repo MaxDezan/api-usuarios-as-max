@@ -1,3 +1,5 @@
+using APIUsuarios.Domain.Entities;
+
 namespace APIUsuarios.Application.Interfaces;
 
 public interface IUsuarioRepository

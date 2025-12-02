@@ -1,3 +1,6 @@
+using APIUsuarios.Application.DTOs;
+using System.Threading;
+
 namespace APIUsuarios.Application.Interfaces;
 
 public interface IUsuarioService
