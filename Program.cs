@@ -1,5 +1,5 @@
-using APIUsuarios.Infra.Data;
-using APIUsuarios.Infra.Repositories;
+using APIUsuarios.Infrastructure.Persistence;
+using APIUsuarios.Infrastructure.Repositories;
 using APIUsuarios.Application.Interfaces;
 using APIUsuarios.Application.Services;
 using APIUsuarios.Application.DTOs;

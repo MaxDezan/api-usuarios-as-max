@@ -24,22 +24,19 @@ public class UsuarioCreateDtoValidator : AbstractValidator<UsuarioCreateDto>
             .MinimumLength(6);
 
         RuleFor(x => x.DataNascimento)
-            .NotEmpty()
             .Must(BeAtLeast18)
             .WithMessage("Usuário deve ter pelo menos 18 anos");
 
         RuleFor(x => x.Telefone)
             .Matches(@"^\(\d{2}\)\s?\d{4,5}-\d{4}$")
-            .When(x => !string.IsNullOrWhiteSpace(x.Telefone));
+            .When(x => x.Telefone is not null);
     }
 
     private bool BeAtLeast18(DateTime data)
     {
         var hoje = DateTime.Today;
         var idade = hoje.Year - data.Year;
-        if (data.Date > hoje.AddYears(-idade))
-            idade--;
-
+        if (data.Date > hoje.AddYears(-idade)) idade--;
         return idade >= 18;
     }
 }
