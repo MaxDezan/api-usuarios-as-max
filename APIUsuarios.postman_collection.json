@@ -1,0 +1,78 @@
+﻿{
+  "info": {
+    "name": "APIUsuarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Coleção de endpoints da API de Usuários (Minimal APIs, .NET 8, SQLite)."
+  },
+  "item": [
+    {
+      "name": "Listar usuários",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/usuarios"
+      }
+    },
+    {
+      "name": "Obter usuário por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/usuarios/1"
+      }
+    },
+    {
+      "name": "Criar usuário (válido)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Maria Silva\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"senha\": \"segredo123\",\n  \"dataNascimento\": \"1990-05-10\",\n  \"telefone\": \"(11) 91234-5678\"\n}"
+        },
+        "url": "{{baseUrl}}/usuarios"
+      }
+    },
+    {
+      "name": "Criar usuário (inválido)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Ma\",\n  \"email\": \"invalido\",\n  \"senha\": \"123\",\n  \"dataNascimento\": \"2010-01-01\"\n}"
+        },
+        "url": "{{baseUrl}}/usuarios"
+      }
+    },
+    {
+      "name": "Atualizar usuário",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Maria S. Atualizada\",\n  \"email\": \"maria.silva@exemplo.com\",\n  \"dataNascimento\": \"1990-05-10\",\n  \"telefone\": \"(11) 93456-7890\",\n  \"ativo\": true\n}"
+        },
+        "url": "{{baseUrl}}/usuarios/1"
+      }
+    },
+    {
+      "name": "Remover usuário (soft delete)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/usuarios/1"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5189"
+    }
+  ]
+}

@@ -14,10 +14,7 @@ public class UsuarioCreateDtoValidator : AbstractValidator<UsuarioCreateDto>
 
         RuleFor(x => x.Email)
             .NotEmpty()
-            .EmailAddress()
-            .MustAsync(async (email, ct) =>
-                !await repo.EmailExistsAsync(email.Trim().ToLowerInvariant(), ct))
-            .WithMessage("Email já cadastrado");
+            .EmailAddress();
 
         RuleFor(x => x.Senha)
             .NotEmpty()

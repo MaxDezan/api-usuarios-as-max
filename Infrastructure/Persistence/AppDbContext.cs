@@ -18,7 +18,15 @@ public class AppDbContext : DbContext
             b.Property(u => u.Email).IsRequired();
             b.HasIndex(u => u.Email).IsUnique();
             b.Property(u => u.Senha).IsRequired();
-            b.Property(u => u.DataCriacao).IsRequired();
+            b.Property(u => u.Ativo).HasDefaultValue(true);
+            // Para SQLite, CURRENT_TIMESTAMP gera em UTC; manteremos DataCriacao preenchido automaticamente
+            b.Property(u => u.DataCriacao)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
+
+            // Filtro global para retornar somente usuários ativos
+            b.HasQueryFilter(u => u.Ativo);
         });
     }
 }

@@ -3,8 +3,17 @@ obj/
 *.db
 *.sqlite
 *.db-journal
+*-shm
+*-wal
 *.user
 *.suo
 *.cache
 .vscode/
 .idea/
+.vs/
+*.opendb
+TestResults/
+*.nupkg
+.DS_Store
+Thumbs.db
+postman_environment*.json

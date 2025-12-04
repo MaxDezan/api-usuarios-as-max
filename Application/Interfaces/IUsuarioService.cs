@@ -9,4 +9,5 @@ public interface IUsuarioService
     Task<UsuarioReadDto> CreateAsync(UsuarioCreateDto dto, CancellationToken ct);
     Task<UsuarioReadDto?> UpdateAsync(int id, UsuarioUpdateDto dto, CancellationToken ct);
     Task<bool> RemoveAsync(int id, CancellationToken ct);
+    Task<bool> EmailJaCadastradoAsync(string email, CancellationToken ct);
 }

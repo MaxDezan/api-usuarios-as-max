@@ -15,10 +15,19 @@ public class UsuarioService : IUsuarioService
 
     public async Task<UsuarioReadDto> CreateAsync(UsuarioCreateDto dto, CancellationToken ct)
     {
+        // Normalização e regras de negócio mínimas
+        var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
+
+        // Checagem de unicidade de email (negócio)
+        if (await _repo.EmailExistsAsync(normalizedEmail, ct))
+        {
+            throw new InvalidOperationException("EMAIL_DUPLICADO");
+        }
+
         var usuario = new Usuario
         {
             Nome = dto.Nome,
-            Email = dto.Email.Trim().ToLowerInvariant(),
+            Email = normalizedEmail,
             Senha = dto.Senha,
             DataNascimento = dto.DataNascimento,
             Telefone = dto.Telefone
@@ -61,8 +70,20 @@ public class UsuarioService : IUsuarioService
         var usuario = await _repo.GetByIdAsync(id, ct);
         if (usuario is null) return null;
 
+        var normalizedEmail = dto.Email.Trim().ToLowerInvariant();
+
+        // Se o email mudou, verificar duplicidade
+        if (!string.Equals(usuario.Email, normalizedEmail, StringComparison.OrdinalIgnoreCase))
+        {
+            var jaExiste = await _repo.GetByEmailAsync(normalizedEmail, ct);
+            if (jaExiste is not null && jaExiste.Id != id)
+            {
+                throw new InvalidOperationException("EMAIL_DUPLICADO");
+            }
+        }
+
         usuario.Nome = dto.Nome;
-        usuario.Email = dto.Email.Trim().ToLowerInvariant();
+        usuario.Email = normalizedEmail;
         usuario.DataNascimento = dto.DataNascimento;
         usuario.Telefone = dto.Telefone;
         usuario.Ativo = dto.Ativo;
@@ -90,5 +111,11 @@ public class UsuarioService : IUsuarioService
         await _repo.SaveChangesAsync(ct);
 
         return true;
+    }
+
+    public Task<bool> EmailJaCadastradoAsync(string email, CancellationToken ct)
+    {
+        var normalized = email.Trim().ToLowerInvariant();
+        return _repo.EmailExistsAsync(normalized, ct);
     }
 }

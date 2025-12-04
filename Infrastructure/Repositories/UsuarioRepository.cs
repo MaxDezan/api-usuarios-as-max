@@ -26,12 +26,16 @@ public class UsuarioRepository : IUsuarioRepository
 
     public async Task<Usuario?> GetByEmailAsync(string email, CancellationToken ct)
     {
-        return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email, ct);
+        return await _context.Usuarios
+            .IgnoreQueryFilters() // permitir localizar mesmo se inativo para validações
+            .FirstOrDefaultAsync(u => u.Email == email, ct);
     }
 
     public async Task<Usuario?> GetByIdAsync(int id, CancellationToken ct)
     {
-        return await _context.Usuarios.FindAsync(new object[] { id }, ct);
+        return await _context.Usuarios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
 
     public Task RemoveAsync(Usuario usuario, CancellationToken ct)
@@ -48,7 +52,9 @@ public class UsuarioRepository : IUsuarioRepository
 
     public async Task<bool> EmailExistsAsync(string email, CancellationToken ct)
     {
-        return await _context.Usuarios.AnyAsync(u => u.Email == email, ct);
+        return await _context.Usuarios
+            .IgnoreQueryFilters() // unicidade deve considerar inclusive inativos
+            .AnyAsync(u => u.Email == email, ct);
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken ct)
