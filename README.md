@@ -22,8 +22,7 @@ A API permite operações CRUD (Create, Read, Update e Soft Delete) sobre usuár
 ## Como Executar o Projeto
 
 ### Pré‑requisitos
-- .NET SDK 8.0 ou superior instalado
-
+- .NET SDK 8.0 
 ### Passos
 1. Clonar o repositório
 2. Entrar na pasta `APIUsuarios` (raiz do projeto)
